@@ -1,23 +1,19 @@
-"use client"
+"use client";
 
-import { Button } from "@/components/ui/button"
-import axios from "axios"
-import { useSearchParams } from "next/navigation"
-import { useState } from "react"
+import { Button } from "@/components/ui/button";
+import axios from "axios";
+import { useSearchParams } from "next/navigation";
+import { useState, Suspense } from "react";
 
-export default function VerifyEmail() {
+function VerifyEmailComponent() {
     const searchParams = useSearchParams();
-    const token = searchParams.get("token"); 
+    const token = searchParams.get("token");  // ✅ Extract token correctly
     const [verified, setVerified] = useState(false);
     const [error, setError] = useState("");
 
     async function verifyEmail() {
         try {
             const response = await axios.post('/api/users/verifyemail', { token });
-            if (response.data.status===202){
-                setError("User already verified")
-                return 
-            }
             setVerified(true);
         } catch (err) {
             console.error("Verification failed:", err.response?.data || err.message);
@@ -34,5 +30,13 @@ export default function VerifyEmail() {
             )}
             {error && <p style={{ color: "red" }}>{error}</p>}
         </div>
+    );
+}
+
+export default function VerifyEmail() {
+    return (
+        <Suspense fallback={<p>Loading...</p>}>
+            <VerifyEmailComponent />
+        </Suspense>
     );
 }
