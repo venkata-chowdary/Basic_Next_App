@@ -2,7 +2,7 @@ import mongoose, { mongo } from "mongoose";
 
 export async function connect() {
     try {
-        mongoose.connect("mongodb://localhost:27017/next-auth")
+        mongoose.connect(process.env.MONGOURL)
         const connection = mongoose.connection
 
         connection.on('connected', () => {

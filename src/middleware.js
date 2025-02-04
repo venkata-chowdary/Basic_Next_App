@@ -20,7 +20,7 @@ export const config = {
     matcher: [
         '/',
         '/profile',
-        '/profile/:profileId',
+        '/verifyemail',
         '/login',
         '/signup'
     ],
