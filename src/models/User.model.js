@@ -1,10 +1,9 @@
 import mongoose from "mongoose";
-import { unique } from "next/dist/build/utils";
 
 const userSchema = new mongoose.Schema({
     username: {
         type: String,
-        required: [true, "Please provide an username"],
+        required: [true, "Please provide a username"],
         unique: true
     },
     email: {
@@ -12,9 +11,10 @@ const userSchema = new mongoose.Schema({
         required: [true, "Please provide an email"],
         unique: true
     },
-    email: {
+    password: {
         type: String,
-        required: [true, "Please provide password"],
+        required: [true, "Please provide a password"],
+        minlength: [6, "Password must be at least 6 characters long"]
     },
     isVerified: {
         type: Boolean,
@@ -28,9 +28,9 @@ const userSchema = new mongoose.Schema({
     forgotPasswordTokenExpiry: Date,
     verifyToken: String,
     verifyTokenExpiry: Date
-})
+}, { strict: true }); // Ensures only defined fields are stored
 
+// Prevent duplicate model declaration in Next.js
+const User = mongoose.models.User || mongoose.model("User", userSchema);
 
-//In next.js model might get created already in the db, as the calls to backend runs in edges, not in continuous
-const User = mongoose.model.users || mongoose.model("User", userSchema)
-export default User
+export default User;

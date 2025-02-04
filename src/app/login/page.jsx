@@ -1,13 +1,14 @@
 "use client"
 import React, { useState } from "react";
 import { LoginForm } from "@/components/login-form"
-
+import axios from "axios";
+import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
     const [user, setUser] = useState({
         email: "",
         password: "",
-    });
+    }); const router = useRouter();
 
 
     const handleChange = (e) => {
@@ -20,6 +21,16 @@ export default function LoginPage() {
     // Handle form submission
     async function handleLogin(e) {
         e.preventDefault();
+
+        try {
+            const response = await axios.post("/api/users/login", user);
+            console.log("Login successfully Successful", response.data);
+            if (response.data.success===true) {
+                router.push('/profile')
+            }
+        } catch (error) {
+            console.error("Signup Failed", error.response?.data || error.message);
+        }
 
     }
     return (

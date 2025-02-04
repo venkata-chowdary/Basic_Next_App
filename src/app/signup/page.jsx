@@ -28,9 +28,9 @@ export default function SignUpPage() {
         e.preventDefault(); // Prevent page reload
 
         try {
-            const response = await axios.post("/api/signup", user);
+            const response = await axios.post("/api/users/signup", user);
             console.log("Signup Successful", response.data);
-            router.push("/dashboard"); // Redirect on success
+            router.push("/login"); // Redirect on success
         } catch (error) {
             console.error("Signup Failed", error.response?.data || error.message);
         }
